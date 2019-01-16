@@ -1,4 +1,4 @@
 
-test("My first test", () => {
+test("", () => {
 
 });
