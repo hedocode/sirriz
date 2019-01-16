@@ -9,9 +9,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'front')));
 
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
-});
+if (!module.parent) {
+    app.listen(3000, () => {
+        console.log("Server running on port 3000");
+    });
+}
 
 router.get("/api/series", (request, result, next) =>{
     var buffer = fs.readFileSync('data/series.json', 'utf8');
@@ -32,3 +34,13 @@ router.get("/", (request, result, next) =>{
 });
 
 app.use('/', router);
+
+app.use(function(req, res, next) {
+    return res.status(404).sendFile(path.join(__dirname + '/front/html/404.html'));
+});
+
+app.use(function(err, req, res, next) {
+    console.log(typeof(err));
+    console.log(err);
+        return res.status(500).send({ error: err });//sendFile(path.join(__dirname + '/front/html/500.html'));
+});

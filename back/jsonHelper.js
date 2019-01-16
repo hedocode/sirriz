@@ -1,6 +1,5 @@
-
 function getJsonByRequest(json, request){
-    if(request.query.title != undefined){
+    if(request != undefined && request.query != undefined && request.query.title != undefined){
         json = json.series[request.query.title];
         if(request.query.s != undefined){
             json = json[request.query.s - 1];
@@ -9,5 +8,7 @@ function getJsonByRequest(json, request){
             }
         }
     }
+    return json;
 }
+
 module.exports.getJsonByRequest = getJsonByRequest;
