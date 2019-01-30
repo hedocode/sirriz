@@ -11,6 +11,7 @@ If you don't have node or npm installed, please do by the following command (Lin
 
 ```bash
 sudo apt-get install node npm 
+sudo apt-get update
 ```
 
 
@@ -19,9 +20,7 @@ Open a console into the sirriz/back folder and execute the following commands
 
 ```bash
 npm install
-```
-
-```bash
+npm update
 node app.js
 ```
 
@@ -31,6 +30,7 @@ If you don't have node or npm installed, please do by the following command (Lin
 
 ```bash
 sudo apt-get install node npm 
+sudo apt-get update
 ```
 
 
@@ -42,8 +42,6 @@ npm install
 npm update
 npm start
 ```
-
-## 
 
 
 
