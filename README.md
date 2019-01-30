@@ -5,6 +5,8 @@ A server/client node/js application with an API to manage viewed series.
 
 # Installation
 
+## Back
+
 If you don't have node or npm installed, please do by the following command (Linux)
 
 ```bash
@@ -13,17 +15,35 @@ sudo apt-get install node npm
 
 
 
-
-
-Open a console into the sirriz folder and execute the following commands 
+Open a console into the sirriz/back folder and execute the following commands 
 
 ```bash
 npm install
 ```
 
 ```bash
-node src/app.js
+node app.js
 ```
+
+## Front
+
+If you don't have node or npm installed, please do by the following command (Linux)
+
+```bash
+sudo apt-get install node npm 
+```
+
+
+
+Open a console into the sirriz/client folder and execute the following commands 
+
+```bash
+npm install
+npm update
+npm start
+```
+
+## 
 
 
 
