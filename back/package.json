@@ -10,6 +10,7 @@
     "@babel/preset-env": "^7.3.1",
     "@types/node": "^10.12.21",
     "babel-jest": "^24.0.0",
+    "express": "^4.16.4",
     "jest": "^24.0.0"
   },
   "scripts": {
@@ -19,6 +20,7 @@
     "verbose": true
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
   }
