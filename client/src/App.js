@@ -5,6 +5,7 @@ import {
   Link
 } from 'react-router-dom'
 import './App.css';
+var _ = require('underscore');
 
 const MainMenu = () => (
     <div className="App">
@@ -42,13 +43,12 @@ class SeriesView extends React.Component{
     this.state = {
       data: []
     };
-    this.state = this.state.bind(this);
   }
 
   componentDidMount(){
     fetch("http://localhost:3001/api/movies")
     .then((res) => {return res.json()})
-    .then((data) => { this.setState({ movies: data })});
+    .then((data) => { this.setState({ movies: data })} );
   }
 
   render(){
@@ -61,15 +61,11 @@ class SeriesView extends React.Component{
         </Link>
         <h2>Series List</h2>
 
-        <ul>
-          {
-            this.state.map(
-              (serie) => {
-                return <li>{serie}</li>;
-              }
-            )
-          }
-        </ul>
+        <div>
+          { _.pairs(this.state['movies']).map( (movie) => <div>{movie[1].description}<br></br>{movie[1].length}</div>
+            
+          ) }
+        </div>
     
         <Link to="/addSerie">
           <button className="addButton">+</button>
