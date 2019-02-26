@@ -4,6 +4,8 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+
+import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router';
 import './App.css';
 var _ = require('underscore');
@@ -104,10 +106,10 @@ class SeriesView extends React.Component{
 
         <div>
           { _.pairs(this.state['movies']).map( (serie) => 
-              <div class='movie'>
-                <div class='element'>{serie[0]}</div>
-                <div class='element'>{serie[1].description}</div>
-                <div class='element'>{(Math.trunc(serie[1].length / 60))}h{Math.trunc(serie[1].length % 60)}min</div>
+              <div className='movie'>
+                <div className='element'>{serie[0]}</div>
+                <div className='element'>{serie[1].description}</div>
+                <div className='element'>{(Math.trunc(serie[1].length / 60))}h{Math.trunc(serie[1].length % 60)}min</div>
               </div>
             
           ) }
@@ -149,6 +151,8 @@ class AddSerie extends React.Component{
     this.state = {
       fireRedirect: false
     }
+
+    this.doSubmit = this.doSubmit.bind(this);
   }
 
   redirect(res){
@@ -159,14 +163,18 @@ class AddSerie extends React.Component{
     }
   }
 
-  submit(e){
+  doSubmit(e){
     e.preventDefault();
-    
-    var data = this.refs.data.getDOMNode().value;
+    var data = this.refs.stitle.value;
+    console.log(data);
     fetch("http://localhost:3001/api/series/create", {
         method: "POST",
-        body: data
-    })//.then( () => {this.setState({ fireRedirect: true })} );
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({stitle:data})
+    }).then( () => {this.setState({ fireRedirect: true })} );
   } 
 
   render(){
@@ -185,10 +193,10 @@ class AddSerie extends React.Component{
             <p>Back to series list</p>
         </Link>
 
-        <form action="http://localhost:3001/api/series/create" method="POST">
-          <input type="text" name="stitle" id="stitle" placeholder="Title" required/>
+        <form >
+          <input ref="stitle" type="text" name="stitle" id="stitle" placeholder="Title" required/>
           <br/>
-          <button type="submit">Adding this serie</button>
+          <button type="button" onClick={this.doSubmit}>Adding this serie</button>
         </form>
         
       
