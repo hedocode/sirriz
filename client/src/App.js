@@ -4,6 +4,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import { Redirect } from 'react-router';
 import './App.css';
 var _ = require('underscore');
 
@@ -37,7 +38,7 @@ const Movies = () => (
     </div>
 );
 
-class SeriesView extends React.Component{
+class MoviesView extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -52,8 +53,6 @@ class SeriesView extends React.Component{
   }
 
   render(){
-    
-    console.log("Rendering SeriesView");
     return(
       <div>
         <Link to="/">
@@ -62,7 +61,54 @@ class SeriesView extends React.Component{
         <h2>Series List</h2>
 
         <div>
-          { _.pairs(this.state['movies']).map( (movie) => <div>{movie[1].description}<br></br>{movie[1].length}</div>
+          { _.pairs(this.state['movies']).map( (movie) => 
+              <div class='movie'>
+                <div class='element'>{movie[0]}</div>
+                <div class='element'>{movie[1].description}</div>
+                <div class='element'>{(Math.trunc(movie[1].length / 60))}h{Math.trunc(movie[1].length % 60)}min</div>
+              </div>
+            
+          ) }
+        </div>
+    
+        <Link to="/addSerie">
+          <button className="addButton">+</button>
+        </Link>
+      </div>
+    )
+  }
+}
+
+
+class SeriesView extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount(){
+    fetch("http://localhost:3001/api/series")
+    .then((res) => {return res.json()})
+    .then((data) => { this.setState({ movies: data })} );
+  }
+
+  render(){
+    return(
+      <div>
+        <Link to="/">
+            <p>Back to Main Menu</p>
+        </Link>
+        <h2>Series List</h2>
+
+        <div>
+          { _.pairs(this.state['movies']).map( (serie) => 
+              <div class='movie'>
+                <div class='element'>{serie[0]}</div>
+                <div class='element'>{serie[1].description}</div>
+                <div class='element'>{(Math.trunc(serie[1].length / 60))}h{Math.trunc(serie[1].length % 60)}min</div>
+              </div>
             
           ) }
         </div>
@@ -96,26 +142,67 @@ const AddMovie = () => (
   </div>
 );
 
-const AddSerie = () => (
-  <div>
-    
-    <Link to="/series">
-        <p>Back to series list</p>
-    </Link>
+class AddSerie extends React.Component{
+  
+  constructor(){
+    super();
+    this.state = {
+      fireRedirect: false
+    }
+  }
 
-    <form method="POST">
-      <input type="text" name="name" id="Title" placeholder="Title" required/>
-      <br/>
-      <button>Adding this serie</button>
-    </form>
-  </div>
-);
+  redirect(res){
+    if( res.status === 200 ){
+      window.location.href = 'http://localhost:3000/';
+    }else {
+      // Something went wrong here
+    }
+  }
+
+  submit(e){
+    e.preventDefault();
+    
+    var data = this.refs.data.getDOMNode().value;
+    fetch("http://localhost:3001/api/series/create", {
+        method: "POST",
+        body: data
+    })//.then( () => {this.setState({ fireRedirect: true })} );
+  } 
+
+  render(){
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { fireRedirect } = this.state;
+
+    if(fireRedirect){
+      return(
+        <Redirect to={from}/>)
+    }
+
+    
+    return(
+      <div>
+        <Link to="/series">
+            <p>Back to series list</p>
+        </Link>
+
+        <form action="http://localhost:3001/api/series/create" method="POST">
+          <input type="text" name="stitle" id="stitle" placeholder="Title" required/>
+          <br/>
+          <button type="submit">Adding this serie</button>
+        </form>
+        
+      
+      </div>
+    )
+  }
+}
+
 
 const BasicExample = () => (
   <Router>
     <div>
       <Route exact path="/" component={MainMenu}/>
-      <Route path="/movies" component={Movies}/>
+      <Route path="/movies" component={MoviesView}/>
       <Route path="/series" component={SeriesView}/>
       <Route path="/addMovie" component={AddMovie}/>
       <Route path="/addSerie" component={AddSerie}/>

@@ -10,6 +10,19 @@ input{
   border-bottom: 1px solid #000000;
 }
 
+.movie{
+  margin: 5px 40px;
+  background-color: rgb(220,220,220);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.element{
+  margin: 10px;
+}
+
 .addButton {
   width: 50px;
   height: 50px;

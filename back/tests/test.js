@@ -63,7 +63,7 @@ test("Get Movies returns an array of all the movies", ()=>{
 });
 
 test("Get Series returns an array of all the Series", ()=>{
-    expect(dataBase.getSeries()).toBeInstanceOf(Object);
+    expect(dataBase.getSeries().toBeInstanceOf(Object);
 });
 
 test("Get Movie works", () =>{
