@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
 
-import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router';
 import './App.css';
 var _ = require('underscore');
@@ -14,29 +13,16 @@ const MainMenu = () => (
     <div className="App">
       <ul className='full'>
         <li>
-          <Link to="/movies">
+          <Link className="amenu" to="/movies">
               Movies
           </Link>
         </li>
         <li>
-          <Link to="/series"> 
+          <Link className="amenu" to="/series"> 
               <span>Series</span>
           </Link>
         </li>
       </ul>
-    </div>
-);
-
-const Movies = () => (
-    <div>
-      <Link to="/">
-        <p>Back to Main Menu</p>
-      </Link>
-      <h2>Movie List</h2>
-      
-      <Link to="/addMovie">
-        <button className="addButton">+</button>
-      </Link>
     </div>
 );
 
@@ -65,9 +51,63 @@ class MoviesView extends React.Component{
         <div>
           { _.pairs(this.state['movies']).map( (movie) => 
               <div class='movie'>
-                <div class='element'>{movie[0]}</div>
-                <div class='element'>{movie[1].description}</div>
-                <div class='element'>{(Math.trunc(movie[1].length / 60))}h{Math.trunc(movie[1].length % 60)}min</div>
+                <a className="aitem" href="/">
+                  <div className='element'>{movie[0]}</div>
+                  <div className='element'>{movie[1].description}</div>
+                  <div className='element'>{(Math.trunc(movie[1].length / 60))}h{Math.trunc(movie[1].length % 60)}min</div>
+                </a>
+              </div>
+          ) }
+        </div>
+    
+        <Link to="/addSerie">
+          <button className="addButton">+</button>
+        </Link>
+      </div>
+    )
+  }
+}
+
+class SerieV extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      az: []
+    }
+  }
+
+  componentDidMount(){
+    fetch("http://localhost:3001/api/series/"+this.props.serie)
+    .then((res) => {return res.json()})
+    .then((data) => { this.setState({ movie: data })} );
+  }
+
+  
+  render(){
+    return(
+      <div>
+        <Link to="/">
+            <p>Back to Main Menu</p>
+        </Link>
+        <br></br>
+        <h2>Series List</h2>
+
+        <div>
+          
+          {
+            _.pairs(this.state.movie).map( (movie) => 
+              <div class='movie'>
+                <div className='element'>{movie}</div>
+              </div>
+            )
+          }
+
+          {  
+             Object.keys(this.state).map( (serie) => 
+              <div className='movie'>
+                  <div className='element'>{serie}</div>
+                  <div className='element'>{serie}</div>
+                  <div className='element'>{serie[1]}</div>
               </div>
             
           ) }
@@ -80,7 +120,6 @@ class MoviesView extends React.Component{
     )
   }
 }
-
 
 class SeriesView extends React.Component{
   constructor(props) {
@@ -96,20 +135,27 @@ class SeriesView extends React.Component{
     .then((data) => { this.setState({ movies: data })} );
   }
 
+  getSerieUrl(serie){
+    return "/series/"+serie;
+  }
+
   render(){
     return(
       <div>
         <Link to="/">
             <p>Back to Main Menu</p>
         </Link>
+        <br></br>
         <h2>Series List</h2>
 
         <div>
           { _.pairs(this.state['movies']).map( (serie) => 
               <div className='movie'>
-                <div className='element'>{serie[0]}</div>
-                <div className='element'>{serie[1].description}</div>
-                <div className='element'>{(Math.trunc(serie[1].length / 60))}h{Math.trunc(serie[1].length % 60)}min</div>
+                <a className="aitem" href={this.getSerieUrl(serie[0])}>
+                  <div className='element'>{serie[0]}</div>
+                  <div className='element'>{serie[1].description}</div>
+                  <div className='element'>{(Math.trunc(serie[1].length / 60))}h{Math.trunc(serie[1].length % 60)}min</div>
+                </a>
               </div>
             
           ) }
@@ -168,12 +214,7 @@ class AddSerie extends React.Component{
     var data = this.refs.stitle.value;
     console.log(data);
     fetch("http://localhost:3001/api/series/create", {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({stitle:data})
+        body: JSON.striZngify({stitle:data})
     }).then( () => {this.setState({ fireRedirect: true })} );
   } 
 
@@ -212,23 +253,12 @@ const BasicExample = () => (
       <Route exact path="/" component={MainMenu}/>
       <Route path="/movies" component={MoviesView}/>
       <Route path="/series" component={SeriesView}/>
+      <Route path="/series/:id" component={SerieV}/>
       <Route path="/addMovie" component={AddMovie}/>
       <Route path="/addSerie" component={AddSerie}/>
     </div>
   </Router>
 );
-
-function getMovies(){
-  fetch("http://localhost:3001/api/movies")
-  .then((res) => {return res.json()})
-  .then((data) => { this.setState({ movies: data })} );
-}
-
-function getSeries(){
-  fetch("http://localhost:3001/api/series")
-  .then(res => res.json())
-  .then(data => this.setState({ series: data }));
-}
 
 export default BasicExample
 

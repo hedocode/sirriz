@@ -17,6 +17,12 @@ router.get("/api/series", (request, result, next) =>{
     result.json(json['series']);
 });
 
+router.get("/api/series/:serie", (request, result, next) =>{
+    var json = dataManager.getJSON();
+    json = jsonhelper.getJsonByRequest(json, request);
+    result.json(new Object(json['series'][request.params.serie]));
+});
+
 router.get("/api/movies", (request, result, next) =>{
     var json = dataManager.getJSON();
     json = jsonhelper.getJsonByRequest(json, request);
