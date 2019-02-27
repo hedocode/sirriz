@@ -23,7 +23,7 @@ Open a console into the sirriz/back folder and execute the following commands
 
 ```bash
 yarn
-node app.js
+yarn start
 ```
 
 ## Front

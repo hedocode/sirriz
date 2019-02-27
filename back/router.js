@@ -20,13 +20,20 @@ router.get("/api/series", (request, result, next) =>{
 router.get("/api/series/:serie", (request, result, next) =>{
     var json = dataManager.getJSON();
     json = jsonhelper.getJsonByRequest(json, request);
-    result.json(new Object(json['series'][request.params.serie]));
+    result.json(json['series'][request.params.serie]);
 });
 
 router.get("/api/movies", (request, result, next) =>{
     var json = dataManager.getJSON();
     json = jsonhelper.getJsonByRequest(json, request);
     result.json(json['movies']);
+});
+
+
+router.get("/api/movies/:movie", (request, result, next) =>{
+    var json = dataManager.getJSON();
+    json = jsonhelper.getJsonByRequest(json, request);
+    result.json(json['movies'][request.params.movie]);
 });
 
 router.post("/api/series/create", (request, result) => {
@@ -42,7 +49,20 @@ router.post("/api/series/create", (request, result) => {
 });
 
 
-router.post("/api/series/addSeason", (request, result) => {
+router.post("/api/movies/create", (request, result) => {
+    var args = request.body;
+    if(args.title === undefined && args.description === undefined && args.length === undefined){
+        result.status(400).send("BAD REQUEST SYNTAX : Missing stitle param");
+        return;
+    }
+    else{
+        dataManager.addMovie(args.title, args.description, null, args.length);
+        result.status(202).send(series);
+    }
+});
+
+
+router.post("/api/series/addEpisode", (request, result) => {
     var args = request.body;
     if(args.stitle === undefined){
         result.status(400).send("BAD REQUEST SYNTAX : Missing stitle param");
