@@ -72,7 +72,7 @@ class SerieV extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      az: []
+      data: []
     }
   }
 
@@ -86,8 +86,8 @@ class SerieV extends React.Component{
   render(){
     return(
       <div>
-        <Link to="/">
-            <p>Back to Main Menu</p>
+        <Link to="/series">
+            <p>Back to series list</p>
         </Link>
         <br></br>
         <h2>Series List</h2>
@@ -106,11 +106,11 @@ class SerieV extends React.Component{
              Object.keys(this.state).map( (serie) => 
               <div className='movie'>
                   <div className='element'>{serie}</div>
-                  <div className='element'>{serie}</div>
-                  <div className='element'>{serie[1]}</div>
+
               </div>
+            ) 
             
-          ) }
+          }
         </div>
     
         <Link to="/addSerie">
@@ -251,8 +251,8 @@ const BasicExample = () => (
   <Router>
     <div>
       <Route exact path="/" component={MainMenu}/>
+      <Route exact path="/series" component={SeriesView}/>
       <Route path="/movies" component={MoviesView}/>
-      <Route path="/series" component={SeriesView}/>
       <Route path="/series/:id" component={SerieV}/>
       <Route path="/addMovie" component={AddMovie}/>
       <Route path="/addSerie" component={AddSerie}/>

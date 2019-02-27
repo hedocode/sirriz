@@ -5,42 +5,35 @@ A server/client node/js application with an API to manage viewed series.
 
 # Installation
 
-## Back
 
-If you don't have node or npm installed, please do by the following command (Linux)
+If you don't have yarn, node or npm installed, please do by the following commands (Linux)
 
 ```bash
-sudo apt-get install node npm 
+sudo apt-get install nodejs npm 
 sudo apt-get update
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install yarn
 ```
 
+## Back
 
 
 Open a console into the sirriz/back folder and execute the following commands 
 
 ```bash
-npm install
-npm update
+yarn
 node app.js
 ```
 
 ## Front
 
-If you don't have node or npm installed, please do by the following command (Linux)
-
-```bash
-sudo apt-get install node npm 
-sudo apt-get update
-```
-
-
 
 Open a console into the sirriz/client folder and execute the following commands 
 
 ```bash
-npm install
-npm update
-npm start
+yarn
+yarn start
 ```
 
 
