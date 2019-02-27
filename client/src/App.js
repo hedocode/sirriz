@@ -7,7 +7,7 @@ import {
 
 import { Redirect } from 'react-router';
 import './App.css';
-var _ = require('underscore');
+var _ = require('underscore-node');
 
 const MainMenu = () => (
     <div className="App">
