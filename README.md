@@ -40,10 +40,13 @@ yarn start
 
 # Usage
 
-http://localhost:3000 - display Hello World
+http://localhost:3001/api/series - returns the json of the series
 
-http://localhost:3000/series - show all the series
+http://localhost:3001/api/series/Assassination%20classroom - returns the json of the Assassination classroom serie
 
-http://localhost:3000/api/series - returns the json of the series
+http://localhost:3001/api/movies - returns the json of the movies
 
-http://localhost:3000/api/series?title=Assassination%20Classroom&s=1&e=3
+
+http://localhost:3001/api/movies/Shrek%202 - returns the json of the Shrek 2 Movie
+
+http://localhost:3001/api/series?title=Assassination%20Classroom&s=1&e=3 - return the 3rd episode from the 1st Season of Assassination Classroom

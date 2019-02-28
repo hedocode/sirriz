@@ -115,7 +115,7 @@ router.get("/", (request, result) =>{
     else
         result.sendFile(path.join(__dirname + '/front/html/index.html'));
 });
-
+*/
 
 router.use(function(req, res, next) {
     res.status(404).sendFile(path.join(__dirname + '/front/html/404.html'));
@@ -127,6 +127,5 @@ router.use(function(err, req, res, next) {
     
     res.status(500).sendFile(path.join(__dirname + '/front/html/500.html'));  
 });
-*/
 
 module.exports = router;
