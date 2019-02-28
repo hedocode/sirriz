@@ -517,7 +517,7 @@ class AddEpisode extends React.Component{
   } 
 
   render(){
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } = this.props.location.state || { from: { pathname: '/series/'+this.props.match.url.split('/')[2] } }
     const { fireRedirect } = this.state;
 
     if(fireRedirect){
