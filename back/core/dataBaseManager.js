@@ -59,7 +59,7 @@ function getEpisode(stitle, season, episode){
 }
 
 function getMovies(){
-    return getJSON()['movies'];
+    return cache['movies'];
 }
 
 function getMovie(title){
@@ -77,6 +77,14 @@ function getMovie(title){
     }
 }
 
+function addNote(title, note){
+    if(cache['movies'][title].note == null){
+        cache['movies'][title].note = [];
+    }
+    cache['movies'][title].note.push(note);
+    saveJSON();
+}
+
 function addMovie(title, description, note, length){
     cache['movies'][title] = { description: description, note: note, length: length};
     saveJSON();
@@ -84,8 +92,7 @@ function addMovie(title, description, note, length){
 }
 
 function removeMovie(title){
-    var json = getJSON();
-    json['movies'][title] = undefined;
+    cache['movies'][title] = undefined;
     saveJSON();
 }
 
@@ -105,3 +112,4 @@ module.exports.removeMovie = removeMovie;
 module.exports.addSerie = addSerie;
 module.exports.addSeason = addSeason;
 module.exports.addEpisode = addEpisode;
+module.exports.addNote = addNote;

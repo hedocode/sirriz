@@ -29,6 +29,18 @@ router.get("/api/movies", (request, result, next) =>{
     result.json(json['movies']);
 });
 
+router.post("/api/movies/note", (request, result, next) =>{
+    var args = request.body;
+    if(args.title === undefined && args.note === undefined){
+        result.status(400).send("BAD REQUEST SYNTAX : Missing title or note param");
+        return;
+    }
+    else{
+        dataManager.addNote(args.title, args.note);
+        result.status(202).send("Note added");
+    }
+});
+
 
 router.get("/api/movies/:movie", (request, result, next) =>{
     var json = dataManager.getJSON();

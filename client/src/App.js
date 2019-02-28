@@ -7,7 +7,7 @@ import {
 
 import { Redirect } from 'react-router';
 import './App.css';
-var _ = require('underscore-node');
+var _ = require('underscore');
 
 const MainMenu = () => (
     <div className="App">
@@ -57,7 +57,7 @@ class MoviesView extends React.Component{
         <Link to="/">
             <p>Back to Main Menu</p>
         </Link>
-        <h2>Movie List</h2>
+        <h1>Movie List</h1>
 
         <div>
           { _.pairs(this.state['movies']).map( (movie) => 
@@ -108,7 +108,7 @@ class SerieV extends React.Component{
             <p>Back to series list</p>
         </Link>
         <br></br>
-        <h2>{this.props.match.url.split('/')[2]}</h2>
+        <h1>{this.props.match.url.split('/')[2]}</h1>
 
         <div>
           
@@ -148,6 +148,8 @@ class MovieV extends React.Component{
     this.state = {
 
     }
+
+    this.doSubmit = this.doSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -162,30 +164,63 @@ class MovieV extends React.Component{
     .then((data) => { this.setState({ movie: data }); })
   }
 
+
+  doSubmit(e){
+    e.preventDefault();
+    const note = this.refs.note.value;
+    
+    fetch("http://localhost:3001/api/movies/note", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({title: this.props.match.url.split('/')[2], note: note})
+    }).then( () => {this.forceUpdate()});
+  } 
+
+  avgNote(notes){
+    var avg = 0;
+    notes.forEach(element => {
+      avg += parseInt(element);
+    });
+    return avg / notes.length;
+  }
   
   render(){
+
     return(
       <div>
         <Link to="/movies">
             <p>Back to movie list</p>
         </Link>
         <br></br>
-        <h2>{this.props.match.url.split('/')[2]}</h2>
+        <h1>{this.props.match.url.split('/')[2]}</h1>
 
         <div>
 
           {
             _.pairs(this.state['movie']).map( (movie) => 
-              <div class='movie'>
-                <div className='element'>{movie[1]}</div>
+              <div className='sexion'>
+                <div className='attrhead'>{movie[0]}</div>
+                <div className='movie'>
+                  <div className='element'>
+                    {movie[0] === 'note' 
+                      ? this.avgNote(movie[1]).toFixed(2) + ' / 20' + ' (' + movie[1].length + ' notes)' 
+                      : movie[1] + ' ' 
+                    }
+                    
+                  </div>
+                </div>
               </div>
             )
           }
         </div>
-    
-        <Link to="/addSerie">
-          <button className="addButton">+</button>
-        </Link>
+        <form>
+          <input ref="note" type="number" min="0" max="20"></input>
+          <button onClick={this.doSubmit}>Noter</button>
+        </form>
+        
       </div>
     )
   }
@@ -223,7 +258,7 @@ class SeriesView extends React.Component{
             <p>Back to Main Menu</p>
         </Link>
         <br></br>
-        <h2>Series List</h2>
+        <h1>Series List</h1>
 
         <div>
           { _.pairs(this.state['movies']).map( (serie) => 

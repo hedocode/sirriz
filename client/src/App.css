@@ -3,9 +3,28 @@
   text-align: center;
 }
 
+button{
+  background-color: #3EBAFF;
+  border: none;
+  padding: 5px;
+  font-weight: bold;
+  color : white;
+}
+
 input{
   border: none;
   border-bottom: 1px solid #000000;
+  padding: 5px;
+}
+
+.attrhead{
+  text-align: left;
+  margin: 20px;
+  text-transform: capitalize;
+}
+
+.sexion{
+  margin-bottom: 50px;
 }
 
 .movie{
@@ -29,8 +48,7 @@ input{
   border-radius: 100%;
   position: fixed;
   bottom: 40px;
-  right: 40px; 
-  background-color: #3EBAFF;
+  right: 40px;
 }
 
 .amenu {
