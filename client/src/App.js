@@ -89,7 +89,7 @@ class SerieV extends React.Component{
 
   componentDidMount(){
     console.log(this.props);
-    fetch("http://localhost:3001/api"+this.props.match.url,{
+    fetch("http://localhost:3001/api" + this.props.match.url,{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -118,6 +118,69 @@ class SerieV extends React.Component{
                 <h3>Saison {parseInt(movie[0]) + 1}</h3>
               {_.pairs(movie[1]).map( (movie) => 
                 <div className='movie'>
+                  <a className="aitem" href={'/' + this.props.match.url.split('/')[2] + '/' + movie[1].title}>
+                    <div className='element'>Episode {movie[0]}</div>
+                    <div className='element'>{movie[1].title}</div>
+                    <div className='element'>{movie[1].description}</div>
+                    <div className='element'>{(Math.trunc(movie[1].length / 60))}h{Math.trunc(movie[1].length % 60)}min</div>
+                  </a>
+                </div>
+              )
+              }
+              <br></br>
+              </div>
+            )
+          }
+        </div>
+    
+        <Link to={"/addEpisode/" + this.props.match.url.split('/')[2]}>
+          <button className="addButton">+</button>
+        </Link>
+      </div>
+    )
+  }
+}
+
+
+class SerieEpisodeV extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount(){
+    console.log(this.props);
+    fetch("http://localhost:3001/api"+this.props.match.url,{
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    })
+    .then((res) => {return res.json()})
+    .then((data) => { this.setState({ movie: data })} );
+  }
+
+  
+  render(){
+    return(
+      <div>
+        <Link to="/series">
+            <p>Back to series list</p>
+        </Link>
+        <br></br>
+        <h1>{this.props.match.url.split('/')[2]}</h1>
+
+        <div>
+          AAA
+          {
+            _.pairs(this.state['movie']).map( (movie) => 
+              <div>
+                <h3>Saison {parseInt(movie[0]) + 1}</h3>
+              {_.pairs(movie[1]).map( (movie) => 
+                <div className='movie'>
                   <a className="aitem" href="/">
                     <div className='element'>Episode {movie[0]}</div>
                     <div className='element'>{movie[1].title}</div>
@@ -133,7 +196,7 @@ class SerieV extends React.Component{
           }
         </div>
     
-        <Link to="/addSerie">
+        <Link to="/addEpisode">
           <button className="addButton">+</button>
         </Link>
       </div>
@@ -207,9 +270,10 @@ class MovieV extends React.Component{
                   <div className='element'>
                     {movie[0] === 'note' 
                       ? this.avgNote(movie[1]).toFixed(2) + ' / 20' + ' (' + movie[1].length + ' notes)' 
-                      : movie[1] + ' ' 
+                      : movie[0] === 'length' 
+                      ? (Math.trunc(movie[1] / 60)) + 'h' + Math.trunc(movie[1] % 60) + 'min' 
+                      : movie[1]
                     }
-                    
                   </div>
                 </div>
               </div>
@@ -338,7 +402,7 @@ class AddMovie extends React.Component{
           <textarea ref="description" type="text" name="name" id="Title" placeholder="Description" required/>
           <br/>
           <br/>
-          <input ref="length" type="number" name="name" id="Title" placeholder="Length" required/>
+          <input ref="length" type="number" min='0' name="name" id="Title" placeholder="Length" required/>
           <br/>
           <br/>
           <button onClick={this.doSubmit}>Adding this Movie</button>
@@ -433,15 +497,22 @@ class AddEpisode extends React.Component{
 
   doSubmit(e){
     e.preventDefault();
-    var data = this.refs.stitle.value;
-    console.log(data);
+    var season = this.refs.season.value;
+    var title = this.refs.title.value;
+    var description = this.refs.description.value;
+    var length = this.refs.length.value;
+    
     fetch("http://localhost:3001/api/series/addEpisode", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({stitle: data})
+      body: JSON.stringify({stitle: this.props.match.url.split('/')[2],
+                            season: season-1,
+                            title: title,
+                            description: description,
+                            length: length})
     }).then( () => {this.setState({ fireRedirect: true })} );
   } 
 
@@ -460,11 +531,17 @@ class AddEpisode extends React.Component{
         <Link to="/series">
             <p>Back to series list</p>
         </Link>
-
+        <h1>Adding an episode to {this.props.match.url.split('/')[2]}</h1>
         <form>
-          <input ref="stitle" type="text" name="stitle" id="stitle" placeholder="Title" required/>
-          <br/>
-          <button onClick={this.doSubmit}>Adding this serie</button>
+          <input ref="season" type="text" name="season" id="season" placeholder="Season" required/>
+          <br/><br/>
+          <input ref="title" type="text" name="title" id="title" placeholder="Title" required/>
+          <br/><br/>
+          <input ref="description" type="text" name="description" id="description" placeholder="Description" required/>
+          <br/><br/>
+          <input ref="length" min='0' type="number" name="length" id="length" placeholder="Length" required/>
+          <br/><br/>
+          <button onClick={this.doSubmit}>Adding this episode</button>
         </form>
         
       
@@ -474,7 +551,7 @@ class AddEpisode extends React.Component{
 }
 
 
-const BasicExample = () => (
+const Routes = () => (
   <Router>
     <div>
       <Route exact path="/" component={MainMenu}/>
@@ -482,11 +559,12 @@ const BasicExample = () => (
       <Route exact path="/movies" component={MoviesView}/>
       <Route path="/movies/:id" component={MovieV}/>
       <Route path="/series/:id" component={SerieV}/>
+      <Route path="/series/:id/:ep" component={SerieEpisodeV}/>
       <Route path="/addMovie" component={AddMovie}/>
       <Route path="/addSerie" component={AddSerie}/>
-      <Route path="/addEpisode" component={AddEpisode}/>
+      <Route path="/addEpisode/:id" component={AddEpisode}/>
     </div>
   </Router>
 );
 
-export default BasicExample
+export default Routes

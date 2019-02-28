@@ -81,7 +81,7 @@ router.post("/api/series/addEpisode", (request, result) => {
         return;
     }
     else{
-        dataManager.addSeason(args.stitle);
+        dataManager.addEpisode(args.stitle, args.season, args.title, args.description, args.length, null);
         result.status(202).send(series);
     }
 });

@@ -45,7 +45,6 @@ function addSeason(stitle){
 }
 
 function addEpisode(stitle, season, title, description, length, note){
-    console.log(cache['series'][stitle][season-1]);
     cache['series'][stitle][season].push({title: title, description: description, note: note, length: length});
     saveJSON(cache);
 }

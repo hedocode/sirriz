@@ -34,6 +34,7 @@ input{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-content: space-between;
 }
 
 .element{
