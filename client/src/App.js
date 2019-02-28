@@ -119,7 +119,7 @@ class SerieV extends React.Component{
               {_.pairs(movie[1]).map( (movie) => 
                 <div className='movie'>
                   <a className="aitem" href={'/' + this.props.match.url.split('/')[2] + '/' + movie[1].title}>
-                    <div className='element'>Episode {movie[0]}</div>
+                    <div className='element'>Episode {parseInt(movie[0]) + 1}</div>
                     <div className='element'>{movie[1].title}</div>
                     <div className='element'>{movie[1].description}</div>
                     <div className='element'>{(Math.trunc(movie[1].length / 60))}h{Math.trunc(movie[1].length % 60)}min</div>
