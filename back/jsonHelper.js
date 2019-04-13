@@ -39,6 +39,7 @@ function deserializeJson(json){
         var movie = json['series'][serie];
         seriesArray[serie] = [];
         for(var saison = 0; saison < Object.keys(movie).length; saison++){
+            console.log(movie);
             for(var episode = 0; episode < Object.keys(movie[saison]).length; episode++){
                 var m = movie[saison][episode];
                 seriesArray[serie].push(new Movie(m['title'], m['description'], m['note'], m['length']));
