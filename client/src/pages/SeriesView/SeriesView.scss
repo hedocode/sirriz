@@ -1,0 +1,30 @@
+.o-serie-holder {
+    padding: 20px;
+}
+
+
+.o-serie-holder a {
+    display: flex;
+    text-align: left;
+}
+
+.o-serie-holder .o-serie{
+
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.o-serie{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+
+    transition: all 0.5s ease-in-out;
+
+    padding: 10px;
+    background: linear-gradient(225deg, #dde2e3, #ffffff);
+    box-shadow:  -15px 20px 60px #d1d5d6, 
+                15px -20px 60px #ffffff;
+}
+

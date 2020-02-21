@@ -1,0 +1,44 @@
+.o-movie-holder {
+    padding: 20px;
+    a {
+        display: flex;
+        text-align: left;
+    }
+
+    .o-movie {
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+}
+
+.o-movie{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+
+    transition: all 0.5s ease-in-out;
+
+    padding: 10px;
+    background: linear-gradient(225deg, #dde2e3, #ffffff);
+    box-shadow:  -15px 20px 60px #d1d5d6, 
+                15px -20px 60px #ffffff;
+
+    h2{
+        margin-top: 0px;
+        text-align: left;
+        color: #30363b;
+    }
+
+    .duration{
+        margin-top: 10px;
+        text-align: right;
+        font-weight: bold;
+        font-style: italic;
+    }
+      
+    
+    &:hover{
+        transform: scale(1.02);
+    }
+}
