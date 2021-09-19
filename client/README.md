@@ -1,3 +1,8 @@
+# Sirriz Client
+
+Use React, to create a user interface to interact with the server in order to add, and rate series or movies.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

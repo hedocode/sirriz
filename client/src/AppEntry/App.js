@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 import './App.scss';
 
-import {MoviesView} from '../pages/MovieView/MoviesView';
+import MoviesList from '../pages/MovieList/MoviesList';
 import {SerieV} from '../pages/SerieV/SerieV';
 import {SeriesView} from '../pages/SeriesView/SeriesView';
 import {SerieEpisodeV} from '../pages/SerieEpisodeV/SerieEpisodeV';
@@ -31,7 +31,7 @@ const Routes = () => (
         <div>
             <Route exact path="/" component={MainMenu}/>
             <Route exact path="/series" component={SeriesView}/>
-            <Route exact path="/movies" component={MoviesView}/>
+            <Route exact path="/movies" component={MoviesList}/>
             <Route path="/movies/:id" component={MovieV}/>
             <Route path="/series/:id" component={SerieV}/>
             <Route path="/series/:id/:ep" component={SerieEpisodeV}/>
